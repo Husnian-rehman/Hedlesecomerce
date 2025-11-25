@@ -14,6 +14,9 @@ export const shopifyFetch = async ({ query, variables = {} }: any) => {
 
     const result = await response.json();
 
+    console.log("Shopify Fetch Result →");
+    console.dir(result, { depth: null, colors: true });
+
     if (result.errors) {
       throw new Error(`Shopify GraphQL Errors: ${JSON.stringify(result.errors)}`);
     }
