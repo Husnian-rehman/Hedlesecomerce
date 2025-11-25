@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllBlogs } from "@/lib/shopify/queries/blogs";
 import { Blog } from "@/lib/shopify/types";
+import Banner from "@/components/Banner";
 
 export default async function BlogsPage() {
   const blogs: Blog[] = await getAllBlogs();
@@ -15,6 +16,10 @@ export default async function BlogsPage() {
   );
 
   return (
+  <>
+    <Banner />
+
+    
     <div className="container mx-auto px-6 py-12">
       <h1 className="text-4xl font-bold mb-8 text-center">Blog Posts</h1>
 
@@ -43,5 +48,6 @@ export default async function BlogsPage() {
         ))}
       </div>
     </div>
+  </>
   );
 }
