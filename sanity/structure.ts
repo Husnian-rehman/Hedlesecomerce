@@ -1,6 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 
-export const structure: StructureResolver = (S) =>
+const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
@@ -61,3 +61,5 @@ export const structure: StructureResolver = (S) =>
           ].includes(item.getId()!)
       ),
     ]);
+
+export default structure;
