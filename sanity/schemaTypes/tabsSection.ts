@@ -16,7 +16,7 @@ export const tabsSection = defineType({
       title: 'Tabs',
       type: 'array',
       of: [
-        defineType({
+        defineField({
           name: 'tab',
           title: 'Tab',
           type: 'object',

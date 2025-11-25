@@ -30,7 +30,8 @@ export default {
 
   preview: {
     select: { title: "sectionTitle", collection: "collectionName" },
-    prepare({ title, collection }: { title: string; collection: string }) {
+    prepare(value: Record<string, any>) {
+      const { title, collection } = value;
       return {
         title: title || "Featured Collection Section",
         subtitle: `Shopify Collection: ${collection}`,

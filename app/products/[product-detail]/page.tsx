@@ -1,9 +1,11 @@
-// app/products/[product-detail]/page.tsx
+//  
 
 import Image from "next/image";
 import Link from "next/link";
 import { getProductByHandle } from "@/lib/shopify/queries/productByHandle";
+import { ProductVariant } from "@/lib/shopify/types";
 import ProductGallery from "@/components/ProductGallery"; // interactive gallery client component
+import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 interface ProductDetailProps {
   params: Promise<{ "product-detail": string }>;
@@ -50,11 +52,20 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
                 id="variant"
                 className="w-full border p-2 rounded focus:ring focus:ring-green-200"
               >
-                {variants.map((v) => (
-                  <option key={v.node.id} value={v.node.id}>
-                    {v.node.title} — ${v.node.price.amount}
-                  </option>
-                ))}
+{variants.map((v: { node: { id: Key | readonly string[] | null | undefined; title: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | Iterable<ReactNode> | null | undefined; price: { amount: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | Iterable<ReactNode> | null | undefined; }; }; }) => {
+  const keyId =
+    v.node.id == null
+      ? "unknown-key"
+      : Array.isArray(v.node.id)
+      ? v.node.id.join(",")
+      : v.node.id.toString();
+
+  return (
+    <option key={keyId} value={keyId}>
+      {v.node.title} — ${v.node.price.amount}
+    </option>
+  );
+})}
               </select>
             </div>
           )}
@@ -110,13 +121,13 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
 //           {images.length > 0 ? (
 //             images.map((img, idx) => (
 //               <Image
-//                 key={idx}
+//                 key={idx}s
 //                 src={img.node.url}
 //                 alt={img.node.altText || product.title}
-//                 width={600}
+//                 width={600}s
 //                 height={600}
 //                 className="rounded-lg"
-//               />
+//               />s
 //             ))
 //           ) : (
 //             <div className="w-full h-80 bg-gray-100 flex items-center justify-center rounded-lg">

@@ -38,7 +38,7 @@ export default async function ProductsPage() {
 
         {/* Products Grid */}
           <div className="w-3/4 grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto">
-          {products.map((product) => {
+          {products.map((product: import('@/lib/shopify/types').Product) => {
             const price = product.variants.edges[0].node.price.amount;
             const comparePrice = product.variants.edges[0].node.compareAtPrice?.amount;
 

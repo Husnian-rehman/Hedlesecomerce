@@ -92,6 +92,7 @@ export interface Article {
   title: string;
   handle: string;
   excerpt: string;
+  contentHtml: string;
   publishedAt: string;
   image?: {
     src: string;

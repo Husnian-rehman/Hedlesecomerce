@@ -2,9 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  turbopack: {
-    root: '.',
-  },
+  // Disable Turbopack due to Google Fonts build error
+  experimental: {},
   images: {
     remotePatterns: [
       // Sanity images
