@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getAllBlogs } from "@/lib/shopify/queries/blogs";
 import { Blog } from "@/lib/shopify/types";
 import Banner from "@/components/Banner";
+import { client } from "@/sanity/lib/client";
 
 export default async function BlogsPage() {
   const blogs: Blog[] = await getAllBlogs();
@@ -15,9 +16,20 @@ export default async function BlogsPage() {
     }))
   );
 
+  const bannerData = await client.fetch(`
+    *[_type == "banner"][0]{
+      slides[]{
+        heading,
+        description,
+        "bgImage": bgImage.asset->url,
+        shopAllBtn
+      }
+    }
+  `);
+
   return (
   <>
-    <Banner />
+    <Banner banner={bannerData} />
 
     
     <div className="container mx-auto px-6 py-12">

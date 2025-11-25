@@ -1,24 +1,12 @@
-'use client';
+"use client";
 
-import Slider from "react-slick";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
-import { useEffect, useState } from "react";
 
-async function getBannerData() {
-  const query = `*[_type == "banner"][0]`;
-  return await client.fetch(query);
-}
+const Slider = dynamic(() => import("react-slick"), { ssr: false }) as any;
 
-export default function Banner() {
-  const [banner, setBanner] = useState<any>(null);
-
-  useEffect(() => {
-    getBannerData().then(setBanner);
-  }, []);
-
+export default function Banner({ banner }: { banner: any }) {
   if (!banner?.slides) return null;
 
   const settings = {
@@ -37,20 +25,15 @@ export default function Banner() {
       <Slider {...settings}>
         {banner.slides.map((slide: any, idx: number) => (
           <div key={idx} className="relative w-full h-[100vh]">
-            {/* Background Image */}
             {slide.bgImage && (
               <Image
-                src={urlFor(slide.bgImage).url()}
-                alt="Slide Background"
+                src={slide.bgImage}
+                alt={slide.heading}
                 fill
                 className="object-cover"
               />
             )}
-
-            {/* Dark Overlay */}
             <div className="absolute inset-0 bg-black/40"></div>
-
-            {/* Content */}
             <div className="absolute mx-auto container inset-0 flex flex-col items-start justify-center text-white px-4">
               <h2 className="text-5xl font-extrabold mb-6 drop-shadow-lg">
                 {slide.heading}
@@ -58,8 +41,6 @@ export default function Banner() {
               <p className="text-lg max-w-2xl mb-6 opacity-90">
                 {slide.description}
               </p>
-
-              {/* Internal Link Button */}
               {slide?.shopAllBtn?.url && (
                 <Link
                   href={slide.shopAllBtn.url}

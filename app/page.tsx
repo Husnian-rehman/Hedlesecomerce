@@ -7,6 +7,18 @@ import { shopifyFetch } from "@/lib/shopify/client";
 import { getCollectionProductsByTitle } from "@/lib/shopify/queries/collection";
 
 export default async function Home() {
+
+  // bannr 
+  const bannerData = await client.fetch(`
+  *[_type == "banner"][0]{
+    slides[]{
+      heading,
+      description,
+      "bgImage": bgImage.asset->url,
+      shopAllBtn
+    }
+  }
+`);
   // FeaturedCollectionSection data
   const sections = await client.fetch(`
     *[_type == "featuredCollectionSection"]{
@@ -57,7 +69,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Banner />
+    <Banner banner={bannerData} />
 
       {sectionsWithProducts.map((section: any) => (
         <FeaturedCollectionSection

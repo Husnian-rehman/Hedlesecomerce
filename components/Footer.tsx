@@ -1,21 +1,10 @@
-'use client'
-
-import { client } from '@/sanity/lib/client';
-import { urlFor } from '@/sanity/lib/image';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/image';
+import { client } from '@/sanity/lib/client';
 
-async function getFooterData() {
+export default async function Footer() {
   const query = `*[_type == "footer"][0]`;
-  return await client.fetch(query);
-}
-
-export default function Footer() {
-  const [footer, setFooter] = useState<any>(null);
-
-  useEffect(() => {
-    getFooterData().then(setFooter);
-  }, []);
+  const footer = await client.fetch(query);
 
   if (!footer) return null;
 
@@ -39,7 +28,7 @@ export default function Footer() {
         {footer.columns?.map((col: any, idx: number) => (
           <div key={idx}>
             <h3 className="text-lg font-bold mb-4">{col.heading}</h3>
-            <ul className='flex flex-col gap-4'>
+            <ul className="flex flex-col gap-4">
               {col.links?.map((link: any, i: number) => (
                 <li key={i} className="mb-2">
                   <a href={link.url} className="hover:text-gray-400 transition">
@@ -56,14 +45,13 @@ export default function Footer() {
       <div className="container mx-auto flex justify-center mt-6 space-x-4">
         {footer.socials?.map((social: any, idx: number) => (
           <a key={idx} href={social.url} target="_blank" rel="noopener noreferrer">
-            {/* Example: use icon class (e.g., FontAwesome) */}
             <i className={`${social.icon} text-2xl hover:text-gray-400 transition`}></i>
           </a>
         ))}
       </div>
 
       {/* Row 3: Copyright */}
-      <div className=" mx-auto text-center mt-6 py-6 bg-gray-400">
+      <div className="mx-auto text-center mt-6 py-6 bg-gray-400">
         {footer.copyright}
       </div>
     </footer>
